@@ -2,256 +2,1373 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>G-QUEST: 6 Parts of Speech</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G-QUEST | 6 Parts of Speech</title>
+
 <style>
-*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef4ff,#fdf2ff);color:#172033}
-#app{max-width:1100px;margin:auto;padding:18px}
-header{background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 8px 30px #0001;display:flex;justify-content:space-between;align-items:center;gap:12px}
-h1{margin:0;font-size:28px}.sub{color:#667085;margin-top:5px}.stats{display:flex;gap:10px;flex-wrap:wrap}.pill{background:#f2f4f7;border-radius:14px;padding:9px 13px;font-weight:700}
-main{display:grid;grid-template-columns:1fr 330px;gap:18px;margin-top:18px}
-.card{background:#fff;border-radius:22px;padding:18px;box-shadow:0 8px 30px #0001}
-#board{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px}
-.cell{min-height:70px;border-radius:14px;padding:8px;font-weight:800;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;border:2px solid #fff}
-.cell small{position:absolute;top:5px;left:7px;opacity:.55}.player{outline:4px solid #111827;transform:scale(1.04)}
-.noun{background:#dbeafe}.pronoun{background:#dcfce7}.verb{background:#fef3c7}.adjective{background:#ffedd5}.adverb{background:#f3e8ff}.preposition{background:#ffe4e6}.special{background:#e0e7ff}
-button{border:0;border-radius:13px;padding:11px 16px;font-weight:800;cursor:pointer;background:#111827;color:white}
-button:disabled{opacity:.45;cursor:not-allowed}.dice{font-size:26px;width:100%;margin-top:12px}
-#questionBox{margin-top:18px}.category{font-weight:900;text-transform:uppercase;letter-spacing:.8px}
-.question{font-size:21px;font-weight:800;margin:12px 0}.answers{display:grid;gap:9px}.answers button{background:#f8fafc;color:#172033;text-align:left;border:2px solid #e5e7eb}.answers button:hover{border-color:#6366f1}.correct{background:#dcfce7!important;border-color:#22c55e!important}.wrong{background:#fee2e2!important;border-color:#ef4444!important}
-.feedback{margin-top:12px;padding:12px;border-radius:12px;font-weight:700}.hidden{display:none}
-#log{max-height:230px;overflow:auto;font-size:13px}.logitem{padding:8px 0;border-bottom:1px solid #eee}
-input{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:12px;margin:8px 0 10px;font-size:16px}
-.overlay{position:fixed;inset:0;background:#111827aa;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}.modal{max-width:500px;width:100%;background:#fff;border-radius:24px;padding:26px;text-align:center}.modal h2{font-size:30px}
-@media(max-width:800px){main{grid-template-columns:1fr}#board{grid-template-columns:repeat(4,1fr)}header{flex-direction:column;align-items:flex-start}.stats{width:100%}}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #dbeafe, #fce7f3);
+    color: #172033;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+header {
+    background: white;
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.1);
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 35px;
+}
+
+header p {
+    color: #667085;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    background: #f3f4f6;
+    padding: 10px 16px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.game {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.1);
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.cell {
+    min-height: 75px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    padding: 8px;
+}
+
+.cell small {
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    opacity: .5;
+}
+
+.player {
+    border: 4px solid #111827;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0,0,0,.25);
+}
+
+.start {
+    background: #bbf7d0;
+}
+
+.finish {
+    background: #fde68a;
+}
+
+.noun {
+    background: #bfdbfe;
+}
+
+.pronoun {
+    background: #bbf7d0;
+}
+
+.verb {
+    background: #fef08a;
+}
+
+.adjective {
+    background: #fed7aa;
+}
+
+.adverb {
+    background: #ddd6fe;
+}
+
+.preposition {
+    background: #fecdd3;
+}
+
+.bonus {
+    background: #c7d2fe;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    padding: 14px;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #111827;
+    color: white;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+.answer {
+    background: #f8fafc;
+    color: #172033;
+    border: 2px solid #e5e7eb;
+    text-align: left;
+}
+
+.answer:hover {
+    border-color: #6366f1;
+}
+
+.correct {
+    background: #bbf7d0 !important;
+    border-color: #22c55e !important;
+}
+
+.wrong {
+    background: #fecaca !important;
+    border-color: #ef4444 !important;
+}
+
+.question-box {
+    margin-top: 20px;
+}
+
+.category {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.question {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.mastery {
+    margin-top: 10px;
+}
+
+.mastery-item {
+    padding: 10px;
+    margin: 6px 0;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+@media(max-width:800px) {
+
+    .game {
+        grid-template-columns: 1fr;
+    }
+
+    .board {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+}
+
+@media(max-width:500px) {
+
+    .board {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cell {
+        min-height: 65px;
+        font-size: 12px;
+    }
+}
 </style>
 </head>
+
 <body>
-<div id="app">
+
+<div class="container">
+
 <header>
- <div><h1>🎮 G-QUEST</h1><div class="sub">6 Parts of Speech • Play • Learn • Master</div></div>
- <div class="stats">
-  <div class="pill">⭐ <span id="score">0</span> XP</div>
-  <div class="pill">🎯 <span id="correct">0</span>/<span id="attempts">0</span></div>
-  <div class="pill">🔥 <span id="streak">0</span></div>
- </div>
+
+<h1>🎮 G-QUEST</h1>
+
+<p>
+6 Parts of Speech • Play • Learn • Master
+</p>
+
+<div class="stats">
+
+<div class="stat">
+⭐ XP: <span id="score">0</span>
+</div>
+
+<div class="stat">
+🎯 <span id="correct">0</span>/<span id="attempts">0</span>
+</div>
+
+<div class="stat">
+🔥 Streak: <span id="streak">0</span>
+</div>
+
+</div>
+
 </header>
 
-<main>
-<section class="card">
- <h2>🗺️ Grammar Board</h2>
- <div id="board"></div>
- <button class="dice" id="rollBtn" onclick="rollDice()">🎲 ROLL DICE</button>
- <div id="questionBox" class="hidden">
-  <div class="category" id="cat"></div>
-  <div class="question" id="q"></div>
-  <div class="answers" id="answers"></div>
-  <div id="feedback" class="feedback hidden"></div>
- </div>
-</section>
 
-<aside class="card">
- <h2>👤 Player</h2>
- <input id="playerName" placeholder="Enter your name">
- <button onclick="startGame()">Start / Restart</button>
- <hr>
- <h3>📊 Mastery</h3>
- <div id="mastery"></div>
- <hr>
- <h3>📜 Recent Moves</h3>
- <div id="log"></div>
-</aside>
-</main>
+<div class="game">
+
+<div class="card">
+
+<h2>🗺️ Grammar Board</h2>
+
+<div id="board" class="board"></div>
+
+<button id="rollButton" onclick="rollDice()">
+🎲 ROLL DICE
+</button>
+
+<div id="questionBox" class="question-box hidden">
+
+<div id="category" class="category"></div>
+
+<div id="question" class="question"></div>
+
+<div id="answers"></div>
+
+<div id="feedback" class="feedback hidden"></div>
+
 </div>
 
-<div class="overlay" id="startOverlay">
- <div class="modal">
-  <h2>🚀 Welcome to G-QUEST!</h2>
-  <p>Master 6 Parts of Speech and reach FINISH.</p>
-  <p><b>Noun • Pronoun • Verb • Adjective • Adverb • Preposition</b></p>
-  <input id="nameStart" placeholder="Your name">
-  <button onclick="begin()">ENTER GAME</button>
- </div>
 </div>
+
+
+<div class="card">
+
+<h2>👤 Player</h2>
+
+<input
+id="playerName"
+placeholder="Enter your name"
+>
+
+<button onclick="startGame()">
+🚀 START GAME
+</button>
+
+<h3>📊 Mastery</h3>
+
+<div id="mastery" class="mastery"></div>
+
+<h3>🏆 Status</h3>
+
+<p id="status">
+Ready to play!
+</p>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
-const categories=[
- {key:"noun",name:"Noun",emoji:"🔵"},
- {key:"pronoun",name:"Pronoun",emoji:"🟢"},
- {key:"verb",name:"Verb",emoji:"🟡"},
- {key:"adjective",name:"Adjective",emoji:"🟠"},
- {key:"adverb",name:"Adverb",emoji:"🟣"},
- {key:"preposition",name:"Preposition",emoji:"🔴"}
+
+const categories = {
+
+noun: {
+name: "🔵 Noun"
+},
+
+pronoun: {
+name: "🟢 Pronoun"
+},
+
+verb: {
+name: "🟡 Verb"
+},
+
+adjective: {
+name: "🟠 Adjective"
+},
+
+adverb: {
+name: "🟣 Adverb"
+},
+
+preposition: {
+name: "🔴 Preposition"
+}
+
+};
+
+
+const questions = [
+
+/* NOUN */
+
+{
+c:"noun",
+q:"Which word is a noun?",
+a:["beautiful","school","quickly","run"],
+x:1,
+e:"School names a place."
+},
+
+{
+c:"noun",
+q:"The cat is sleeping. Which word is a noun?",
+a:["sleeping","the","cat","is"],
+x:2,
+e:"Cat names an animal."
+},
+
+{
+c:"noun",
+q:"Which word names a person?",
+a:["teacher","quickly","happy","run"],
+x:0,
+e:"Teacher names a person."
+},
+
+{
+c:"noun",
+q:"I bought a new ___.",
+a:["beautiful","bag","quickly","run"],
+x:1,
+e:"Bag names a thing."
+},
+
+{
+c:"noun",
+q:"Which is a noun?",
+a:["friendship","friendly","quickly","run"],
+x:0,
+e:"Friendship names an idea."
+},
+
+{
+c:"noun",
+q:"Kuala Lumpur is a busy ___.",
+a:["city","quickly","run","beautiful"],
+x:0,
+e:"City is a noun."
+},
+
+{
+c:"noun",
+q:"Which word is NOT a noun?",
+a:["garden","student","quickly","computer"],
+x:2,
+e:"Quickly is an adverb."
+},
+
+{
+c:"noun",
+q:"The boy has a bicycle. Which is a noun?",
+a:["has","boy","the","a"],
+x:1,
+e:"Boy names a person."
+},
+
+{
+c:"noun",
+q:"Which word is a thing?",
+a:["pencil","happily","write","she"],
+x:0,
+e:"Pencil names a thing."
+},
+
+{
+c:"noun",
+q:"Which is a noun?",
+a:["hospital","beautiful","run","slowly"],
+x:0,
+e:"Hospital names a place."
+},
+
+
+/* PRONOUN */
+
+{
+c:"pronoun",
+q:"___ am going to school.",
+a:["I","Me","My","Mine"],
+x:0,
+e:"I is a subject pronoun."
+},
+
+{
+c:"pronoun",
+q:"Ali is tired because ___ studied late.",
+a:["he","him","his","himself"],
+x:0,
+e:"He replaces Ali."
+},
+
+{
+c:"pronoun",
+q:"Sarah and I are friends. ___ play badminton.",
+a:["We","Us","Our","Ours"],
+x:0,
+e:"We replaces Sarah and I."
+},
+
+{
+c:"pronoun",
+q:"The teacher spoke to ___.",
+a:["he","his","him","they"],
+x:2,
+e:"Him is an object pronoun."
+},
+
+{
+c:"pronoun",
+q:"This book is ___.",
+a:["my","mine","I","me"],
+x:1,
+e:"Mine shows possession."
+},
+
+{
+c:"pronoun",
+q:"Which is a pronoun?",
+a:["beautiful","they","school","running"],
+x:1,
+e:"They is a pronoun."
+},
+
+{
+c:"pronoun",
+q:"The girls did it by ___.",
+a:["themselves","their","them","they"],
+x:0,
+e:"Themselves is reflexive."
+},
+
+{
+c:"pronoun",
+q:"___ are my shoes.",
+a:["Those","Them","They","Their"],
+x:0,
+e:"Those points to specific things."
+},
+
+{
+c:"pronoun",
+q:"Mr Lee gave ___ a prize.",
+a:["we","us","our","ours"],
+x:1,
+e:"Us is an object pronoun."
+},
+
+{
+c:"pronoun",
+q:"Replace 'the students'.",
+a:["it","he","they","she"],
+x:2,
+e:"They replaces plural people."
+},
+
+
+/* VERB */
+
+{
+c:"verb",
+q:"The boys ___ football.",
+a:["plays","play","playing","played"],
+x:1,
+e:"Boys is plural, so use play."
+},
+
+{
+c:"verb",
+q:"She ___ a book now.",
+a:["read","reads","is reading","reading"],
+x:2,
+e:"Now indicates present continuous."
+},
+
+{
+c:"verb",
+q:"Which word is the verb?",
+a:["baby","smiled","happily","the"],
+x:1,
+e:"Smiled shows an action."
+},
+
+{
+c:"verb",
+q:"We ___ to the museum yesterday.",
+a:["go","goes","went","going"],
+x:2,
+e:"Yesterday requires went."
+},
+
+{
+c:"verb",
+q:"They ___ finished their work.",
+a:["has","have","having","had"],
+x:1,
+e:"They takes have."
+},
+
+{
+c:"verb",
+q:"Which is a verb?",
+a:["happiness","beautiful","dance","carefully"],
+x:2,
+e:"Dance can show an action."
+},
+
+{
+c:"verb",
+q:"He ___ tired last night.",
+a:["is","are","was","be"],
+x:2,
+e:"He takes was."
+},
+
+{
+c:"verb",
+q:"My mother ___ dinner.",
+a:["cook","cooks","cooking","cooked"],
+x:1,
+e:"Mother is singular."
+},
+
+{
+c:"verb",
+q:"The birds ___ over the trees.",
+a:["fly","beautiful","quickly","birds"],
+x:0,
+e:"Fly shows an action."
+},
+
+{
+c:"verb",
+q:"The students ___ English now.",
+a:["study","studied","are studying","studies"],
+x:2,
+e:"Now indicates present continuous."
+},
+
+
+/* ADJECTIVE */
+
+{
+c:"adjective",
+q:"The girl wore a ___ dress.",
+a:["beautiful","beautifully","beauty","beautify"],
+x:0,
+e:"Beautiful describes dress."
+},
+
+{
+c:"adjective",
+q:"It was a ___ morning.",
+a:["was","cold","morning","it"],
+x:1,
+e:"Cold describes morning."
+},
+
+{
+c:"adjective",
+q:"He lives in a ___ house.",
+a:["comfortably","comfort","comfortable","comforted"],
+x:2,
+e:"Comfortable describes house."
+},
+
+{
+c:"adjective",
+q:"The elephant is very ___.",
+a:["large","largely","largeness","enlarge"],
+x:0,
+e:"Large describes elephant."
+},
+
+{
+c:"adjective",
+q:"Which word describes the car?",
+a:["quickly","red","drive","they"],
+x:1,
+e:"Red describes car."
+},
+
+{
+c:"adjective",
+q:"She is a ___ student.",
+a:["carefully","careful","care","caringly"],
+x:1,
+e:"Careful describes student."
+},
+
+{
+c:"adjective",
+q:"We saw an ___ movie.",
+a:["exciting","excitedly","excitement","excite"],
+x:0,
+e:"Exciting describes movie."
+},
+
+{
+c:"adjective",
+q:"The soup is ___.",
+a:["hot","hotly","heat","heating"],
+x:0,
+e:"Hot describes soup."
+},
+
+{
+c:"adjective",
+q:"Which is an adjective?",
+a:["slowly","slow","slowness","run"],
+x:1,
+e:"Slow describes something."
+},
+
+{
+c:"adjective",
+q:"The test was ___.",
+a:["difficulty","difficult","difficultly","difficultness"],
+x:1,
+e:"Difficult describes test."
+},
+
+
+/* ADVERB */
+
+{
+c:"adverb",
+q:"She sings ___.",
+a:["beautiful","beauty","beautifully","beautify"],
+x:2,
+e:"Beautifully tells how she sings."
+},
+
+{
+c:"adverb",
+q:"He ran ___.",
+a:["quick","quickly","quicker","quickness"],
+x:1,
+e:"Quickly tells how he ran."
+},
+
+{
+c:"adverb",
+q:"They arrived ___.",
+a:["they","arrived","early","the"],
+x:2,
+e:"Early tells when."
+},
+
+{
+c:"adverb",
+q:"The baby slept ___.",
+a:["peaceful","peacefully","peace","peaceless"],
+x:1,
+e:"Peacefully tells how."
+},
+
+{
+c:"adverb",
+q:"She answered ___.",
+a:["correct","correctly","correction","correctness"],
+x:1,
+e:"Correctly tells how."
+},
+
+{
+c:"adverb",
+q:"He spoke ___.",
+a:["He","spoke","softly","voice"],
+x:2,
+e:"Softly tells how."
+},
+
+{
+c:"adverb",
+q:"We will meet ___.",
+a:["tomorrow","tomorrow's","morrow","tomorrows"],
+x:0,
+e:"Tomorrow tells when."
+},
+
+{
+c:"adverb",
+q:"The students worked ___.",
+a:["hard","hardness","hardly","harder"],
+x:0,
+e:"Hard tells how."
+},
+
+{
+c:"adverb",
+q:"Which is an adverb?",
+a:["happy","happily","happiness","happier"],
+x:1,
+e:"Happily is an adverb."
+},
+
+{
+c:"adverb",
+q:"The dog barked ___.",
+a:["loud","loudly","loudness","louder"],
+x:1,
+e:"Loudly tells how."
+},
+
+
+/* PREPOSITION */
+
+{
+c:"preposition",
+q:"The book is ___ the table.",
+a:["on","quickly","happy","they"],
+x:0,
+e:"On shows position."
+},
+
+{
+c:"preposition",
+q:"The cat is ___ the bed.",
+a:["under","beautiful","runs","she"],
+x:0,
+e:"Under shows location."
+},
+
+{
+c:"preposition",
+q:"We arrived ___ school.",
+a:["at","happy","quickly","they"],
+x:0,
+e:"At shows a specific place."
+},
+
+{
+c:"preposition",
+q:"The ball is ___ the box.",
+a:["inside","beautifully","run","he"],
+x:0,
+e:"Inside shows location."
+},
+
+{
+c:"preposition",
+q:"She walked ___ the bridge.",
+a:["across","careful","quickly","they"],
+x:0,
+e:"Across shows movement."
+},
+
+{
+c:"preposition",
+q:"The picture is ___ the wall.",
+a:["on","softly","beautiful","run"],
+x:0,
+e:"On shows position."
+},
+
+{
+c:"preposition",
+q:"He sat ___ me.",
+a:["beside","happy","quick","they"],
+x:0,
+e:"Beside means next to."
+},
+
+{
+c:"preposition",
+q:"The school is ___ the hospital and bank.",
+a:["between","beautifully","run","she"],
+x:0,
+e:"Between is used for two places."
+},
+
+{
+c:"preposition",
+q:"The children ran ___ the classroom.",
+a:["into","beautiful","quickly","they"],
+x:0,
+e:"Into shows movement inside."
+},
+
+{
+c:"preposition",
+q:"The bag is ___ the chair.",
+a:["behind","beautiful","quickly","they"],
+x:0,
+e:"Behind shows position."
+}
+
 ];
 
-const questions=[
-{c:"noun",q:"The teacher entered the classroom. Which word is a noun?",a:["teacher","entered","the","quickly"],x:0,e:"Teacher names a person, so it is a noun."},
-{c:"noun",q:"Which word is a noun?",a:["beautiful","school","run","they"],x:1,e:"School names a place."},
-{c:"noun",q:"The children played football in the park. Which is a noun?",a:["played","children","in","the"],x:1,e:"Children names people."},
-{c:"noun",q:"Choose the noun: 'My brother has a bicycle.'",a:["has","my","brother","a"],x:2,e:"Brother names a person."},
-{c:"noun",q:"Which word names a thing?",a:["happily","pencil","write","she"],x:1,e:"Pencil names a thing."},
-{c:"noun",q:"Which is the noun in 'Kuala Lumpur is busy'?",a:["is","busy","Kuala Lumpur","the"],x:2,e:"Kuala Lumpur is the name of a place."},
-{c:"noun",q:"Which word is NOT a noun?",a:["garden","student","quickly","computer"],x:2,e:"Quickly is an adverb."},
-{c:"noun",q:"Which word is a noun?",a:["friendship","friendly","quickly","smile"],x:0,e:"Friendship names an idea or relationship."},
-{c:"noun",q:"The cat slept on the sofa. Which word is a noun?",a:["slept","on","cat","the"],x:2,e:"Cat names an animal."},
-{c:"noun",q:"Which noun fits: 'I bought a new ___.'",a:["beautiful","bag","carefully","run"],x:1,e:"Bag is a thing."},
 
-{c:"pronoun",q:"___ am going to school.",a:["I","Me","My","Mine"],x:0,e:"I is the subject pronoun used for the speaker."},
-{c:"pronoun",q:"Ali is tired because ___ studied late.",a:["he","him","his","himself"],x:0,e:"He replaces the noun Ali."},
-{c:"pronoun",q:"Sarah and I are friends. ___ play badminton.",a:["We","Us","Our","Ours"],x:0,e:"We replaces Sarah and I."},
-{c:"pronoun",q:"The teacher called Amir. She spoke to ___.",a:["he","his","him","they"],x:2,e:"Him is the object pronoun."},
-{c:"pronoun",q:"This book belongs to me. It is ___.",a:["my","mine","I","me"],x:1,e:"Mine shows possession."},
-{c:"pronoun",q:"Which is a pronoun?",a:["beautiful","they","school","running"],x:1,e:"They is a pronoun."},
-{c:"pronoun",q:"The girls finished the project by ___.",a:["themselves","their","them","they"],x:0,e:"Themselves is the reflexive pronoun."},
-{c:"pronoun",q:"___ are my favourite shoes.",a:["Those","Them","They","Their"],x:0,e:"Those points to specific things."},
-{c:"pronoun",q:"Mr Lee gave ___ a prize.",a:["we","us","our","ours"],x:1,e:"Us is the object pronoun after gave."},
-{c:"pronoun",q:"Which word can replace 'the students'?",a:["it","he","they","she"],x:2,e:"They replaces plural people."},
-
-{c:"verb",q:"The boys ___ football every Saturday.",a:["plays","play","playing","played"],x:1,e:"Boys is plural, so use play for a routine."},
-{c:"verb",q:"She ___ a book now.",a:["read","reads","is reading","reading"],x:2,e:"Now indicates present continuous: is reading."},
-{c:"verb",q:"Which word is the verb? 'The baby smiled happily.'",a:["baby","smiled","happily","the"],x:1,e:"Smiled shows the action."},
-{c:"verb",q:"We ___ to the museum yesterday.",a:["go","goes","went","going"],x:2,e:"Yesterday requires the past form went."},
-{c:"verb",q:"They ___ finished their homework.",a:["has","have","having","had been"],x:1,e:"They takes have."},
-{c:"verb",q:"Choose the verb: 'The birds fly over the trees.'",a:["birds","over","fly","trees"],x:2,e:"Fly shows the action."},
-{c:"verb",q:"He ___ very tired last night.",a:["is","are","was","be"],x:2,e:"He takes was in the past."},
-{c:"verb",q:"Which is a verb?",a:["happiness","beautiful","dance","carefully"],x:2,e:"Dance can show an action."},
-{c:"verb",q:"My mother ___ dinner every evening.",a:["cook","cooks","cooking","cooked"],x:1,e:"Mother is singular, so use cooks."},
-{c:"verb",q:"The students ___ English at the moment.",a:["study","studied","are studying","studies"],x:2,e:"At the moment indicates present continuous."},
-
-{c:"adjective",q:"The girl wore a ___ dress.",a:["beautiful","beautifully","beauty","beautify"],x:0,e:"Beautiful describes the noun dress."},
-{c:"adjective",q:"Which word is an adjective? 'It was a cold morning.'",a:["was","cold","morning","it"],x:1,e:"Cold describes morning."},
-{c:"adjective",q:"He lives in a ___ house.",a:["comfortably","comfort","comfortable","comforted"],x:2,e:"Comfortable describes house."},
-{c:"adjective",q:"The elephant is very ___.",a:["large","largely","largeness","enlarge"],x:0,e:"Large describes the elephant."},
-{c:"adjective",q:"Which word describes the noun 'car'?",a:["quickly","red","drive","they"],x:1,e:"Red describes the car."},
-{c:"adjective",q:"She is a ___ student.",a:["carefully","careful","care","caringly"],x:1,e:"Careful describes student."},
-{c:"adjective",q:"We saw a ___ movie.",a:["exciting","excitedly","excitement","excite"],x:0,e:"Exciting describes movie."},
-{c:"adjective",q:"The soup is too ___.",a:["hot","hotly","heat","heating"],x:0,e:"Hot describes the soup."},
-{c:"adjective",q:"Which is an adjective?",a:["slowly","slow","slowness","slowlyness"],x:1,e:"Slow describes a noun."},
-{c:"adjective",q:"The test was ___.",a:["difficulty","difficult","difficultly","difficultness"],x:1,e:"Difficult describes the test."},
-
-{c:"adverb",q:"She sings ___.",a:["beautiful","beauty","beautifully","beautify"],x:2,e:"Beautifully describes how she sings."},
-{c:"adverb",q:"He ran ___.",a:["quick","quickly","quicker","quickness"],x:1,e:"Quickly tells how he ran."},
-{c:"adverb",q:"Which word is an adverb? 'They arrived early.'",a:["they","arrived","early","the"],x:2,e:"Early tells when they arrived."},
-{c:"adverb",q:"The baby slept ___.",a:["peaceful","peacefully","peace","peaceless"],x:1,e:"Peacefully describes how the baby slept."},
-{c:"adverb",q:"She answered the question ___.",a:["correct","correctly","correction","correctness"],x:1,e:"Correctly tells how she answered."},
-{c:"adverb",q:"Which word tells how he spoke?",a:["He","spoke","softly","voice"],x:2,e:"Softly tells how he spoke."},
-{c:"adverb",q:"We will meet ___.",a:["tomorrow","tomorrow's","morrow","tomorrows"],x:0,e:"Tomorrow tells when."},
-{c:"adverb",q:"The students worked ___.",a:["hard","hardness","hardly","harder"],x:0,e:"Hard tells how they worked."},
-{c:"adverb",q:"Which is an adverb?",a:["happy","happily","happiness","happier"],x:1,e:"Happily modifies an action."},
-{c:"adverb",q:"The dog barked ___.",a:["loud","loudly","loudness","louder"],x:1,e:"Loudly tells how the dog barked."},
-
-{c:"preposition",q:"The book is ___ the table.",a:["on","quickly","happy","they"],x:0,e:"On shows the position of the book."},
-{c:"preposition",q:"The cat is hiding ___ the bed.",a:["under","beautiful","runs","she"],x:0,e:"Under shows location."},
-{c:"preposition",q:"We arrived ___ school at 7 a.m.",a:["at","happy","quickly","they"],x:0,e:"At is used for a specific place/time."},
-{c:"preposition",q:"The ball is ___ the box.",a:["inside","beautifully","run","he"],x:0,e:"Inside shows location."},
-{c:"preposition",q:"She walked ___ the bridge.",a:["across","careful","quickly","they"],x:0,e:"Across shows movement from one side to another."},
-{c:"preposition",q:"The picture is ___ the wall.",a:["on","softly","beautiful","run"],x:0,e:"On shows position on a surface."},
-{c:"preposition",q:"He sat ___ me.",a:["beside","happy","quick","they"],x:0,e:"Beside means next to."},
-{c:"preposition",q:"The school is ___ the hospital and the bank.",a:["between","beautifully","run","she"],x:0,e:"Between is used for two places."},
-{c:"preposition",q:"They travelled ___ Sabah last year.",a:["around","happy","quickly","they"],x:0,e:"Around can show movement within an area."},
-{c:"preposition",q:"The children ran ___ the classroom.",a:["into","beautiful","quickly","they"],x:0,e:"Into shows movement to the inside."}
+const path = [
+"START",
+"noun",
+"noun",
+"pronoun",
+"verb",
+"adjective",
+"adverb",
+"preposition",
+"BONUS",
+"noun",
+"pronoun",
+"verb",
+"adjective",
+"adverb",
+"preposition",
+"BONUS",
+"noun",
+"pronoun",
+"verb",
+"adjective",
+"adverb",
+"preposition",
+"noun",
+"verb",
+"adjective",
+"adverb",
+"preposition",
+"BONUS",
+"noun",
+"pronoun",
+"verb",
+"adjective",
+"adverb",
+"preposition",
+"FINISH"
 ];
 
-const path=[
-"start","noun","noun","pronoun","verb","adjective","adverb","preposition","special","noun","pronoun","verb","adjective","adverb","preposition","special","noun","pronoun","verb","adjective","adverb","preposition","noun","verb","adjective","adverb","preposition","special","noun","pronoun","verb","adjective","adverb","preposition","finish"
-];
-let pos=0,score=0,correct=0,attempts=0,streak=0,locked=false,name="";
-let stats={noun:[0,0],pronoun:[0,0],verb:[0,0],adjective:[0,0],adverb:[0,0],preposition:[0,0]};
 
-function begin(){
- name=document.getElementById("nameStart").value.trim()||"Player";
- document.getElementById("playerName").value=name;
- document.getElementById("startOverlay").style.display="none";
- startGame();
+let position = 0;
+let score = 0;
+let correct = 0;
+let attempts = 0;
+let streak = 0;
+let locked = false;
+
+let mastery = {
+noun:[0,0],
+pronoun:[0,0],
+verb:[0,0],
+adjective:[0,0],
+adverb:[0,0],
+preposition:[0,0]
+};
+
+
+function startGame() {
+
+    position = 0;
+    score = 0;
+    correct = 0;
+    attempts = 0;
+    streak = 0;
+    locked = false;
+
+    for(let key in mastery) {
+        mastery[key] = [0,0];
+    }
+
+    document.getElementById("questionBox")
+        .classList.add("hidden");
+
+    document.getElementById("rollButton")
+        .disabled = false;
+
+    document.getElementById("status")
+        .textContent = "Game started! Roll the dice.";
+
+    render();
+
 }
-function startGame(){
- name=document.getElementById("playerName").value.trim()||"Player";
- pos=0;score=0;correct=0;attempts=0;streak=0;locked=false;
- for(const k in stats)stats[k]=[0,0];
- render();log("🚀 "+name+" started a new game.");
- document.getElementById("questionBox").classList.add("hidden");
- document.getElementById("rollBtn").disabled=false;
+
+
+function render() {
+
+    document.getElementById("score").textContent = score;
+
+    document.getElementById("correct").textContent = correct;
+
+    document.getElementById("attempts").textContent = attempts;
+
+    document.getElementById("streak").textContent = streak;
+
+
+    const board = document.getElementById("board");
+
+    board.innerHTML = "";
+
+
+    path.forEach((item,index) => {
+
+        const cell = document.createElement("div");
+
+        cell.classList.add("cell");
+
+
+        if(item === "START") {
+            cell.classList.add("start");
+            cell.textContent = "🚀 START";
+        }
+
+        else if(item === "FINISH") {
+            cell.classList.add("finish");
+            cell.textContent = "🏆 FINISH";
+        }
+
+        else if(item === "BONUS") {
+            cell.classList.add("bonus");
+            cell.textContent = "⭐ BONUS";
+        }
+
+        else {
+            cell.classList.add(item);
+            cell.textContent = categories[item].name;
+        }
+
+
+        const number = document.createElement("small");
+
+        number.textContent = index;
+
+        cell.appendChild(number);
+
+
+        if(index === position) {
+            cell.classList.add("player");
+        }
+
+
+        board.appendChild(cell);
+
+    });
+
+
+    updateMastery();
+
 }
-function render(){
- document.getElementById("score").textContent=score;
- document.getElementById("correct").textContent=correct;
- document.getElementById("attempts").textContent=attempts;
- document.getElementById("streak").textContent=streak;
- const b=document.getElementById("board");b.innerHTML="";
- path.forEach((k,i)=>{
-   let c=document.createElement("div");
-   c.className="cell "+(categories.find(x=>x.key===k)?.key||"special")+(i===pos?" player":"");
-   let label=k==="start"?"START":k==="finish"?"🏆 FINISH":k==="special"?"⭐ BONUS":(categories.find(x=>x.key===k)?.emoji+" "+categories.find(x=>x.key===k)?.name);
-   c.innerHTML="<small>"+i+"</small>"+label;b.appendChild(c);
- });
- mastery();
+
+
+function updateMastery() {
+
+    const box = document.getElementById("mastery");
+
+    box.innerHTML = "";
+
+
+    for(let key in mastery) {
+
+        const total = mastery[key][1];
+
+        const right = mastery[key][0];
+
+        let percentage = total === 0
+            ? 0
+            : Math.round((right / total) * 100);
+
+
+        let icon = "⚪";
+
+        if(percentage >= 80) {
+            icon = "🟢";
+        }
+
+        else if(percentage >= 60) {
+            icon = "🟡";
+        }
+
+        else if(total > 0) {
+            icon = "🔴";
+        }
+
+
+        const div = document.createElement("div");
+
+        div.className = "mastery-item";
+
+        div.innerHTML =
+            categories[key].name +
+            " — " +
+            percentage +
+            "% " +
+            icon;
+
+
+        box.appendChild(div);
+
+    }
+
 }
-function mastery(){
- let out="";
- categories.forEach(c=>{
-  let s=stats[c.key], pct=s[1]?Math.round(s[0]/s[1]*100):0;
-  let icon=pct>=80?"🟢":pct>=60?"🟡":"🔴";
-  out+=`<div style="margin:8px 0"><b>${c.emoji} ${c.name}</b> — ${s[0]}/${s[1]} (${pct}%) ${s[1]?icon:"⚪"}</div>`;
- });
- document.getElementById("mastery").innerHTML=out;
+
+
+function rollDice() {
+
+    if(locked) return;
+
+
+    const dice = Math.floor(Math.random() * 6) + 1;
+
+
+    position += dice;
+
+
+    if(position >= path.length - 1) {
+
+        position = path.length - 1;
+
+        render();
+
+        finish();
+
+        return;
+
+    }
+
+
+    render();
+
+
+    const current = path[position];
+
+
+    if(current === "BONUS") {
+
+        score += 10;
+
+        document.getElementById("status")
+            .textContent = "⭐ Bonus! +10 XP";
+
+        render();
+
+        return;
+
+    }
+
+
+    showQuestion(current);
+
 }
-function rollDice(){
- if(locked)return;
- let n=Math.floor(Math.random()*6)+1;
- pos=Math.min(pos+n,path.length-1);render();
- if(pos===path.length-1){finish();return;}
- let k=path[pos];
- if(k==="special"){score+=10;render();log("⭐ Bonus square! +10 XP");setTimeout(()=>document.getElementById("rollBtn").disabled=false,300);return;}
- ask(k);
+
+
+function showQuestion(category) {
+
+    locked = true;
+
+    document.getElementById("rollButton")
+        .disabled = true;
+
+
+    const available =
+        questions.filter(q => q.c === category);
+
+
+    const question =
+        available[Math.floor(Math.random() * available.length)];
+
+
+    document.getElementById("questionBox")
+        .classList.remove("hidden");
+
+
+    document.getElementById("category")
+        .textContent =
+        categories[category].name +
+        " CHALLENGE";
+
+
+    document.getElementById("question")
+        .textContent = question.q;
+
+
+    const answers =
+        document.getElementById("answers");
+
+
+    answers.innerHTML = "";
+
+
+    question.a.forEach((answer,index) => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className = "answer";
+
+
+        button.textContent =
+            String.fromCharCode(65 + index) +
+            ". " +
+            answer;
+
+
+        button.onclick = function() {
+
+            checkAnswer(
+                button,
+                index,
+                question,
+                category
+            );
+
+        };
+
+
+        answers.appendChild(button);
+
+    });
+
+
+    document.getElementById("feedback")
+        .classList.add("hidden");
+
 }
-function ask(k){
- locked=true;document.getElementById("rollBtn").disabled=true;
- const pool=questions.filter(q=>q.c===k);
- const item=pool[Math.floor(Math.random()*pool.length)];
- document.getElementById("questionBox").classList.remove("hidden");
- document.getElementById("cat").textContent=(categories.find(c=>c.key===k)?.emoji+" "+categories.find(c=>c.key===k)?.name+" CHALLENGE");
- document.getElementById("q").textContent=item.q;
- const a=document.getElementById("answers");a.innerHTML="";
- item.a.forEach((v,i)=>{
-   let btn=document.createElement("button");btn.textContent=String.fromCharCode(65+i)+". "+v;
-   btn.onclick=()=>answer(btn,i,item,k);a.appendChild(btn);
- });
- document.getElementById("feedback").classList.add("hidden");
+
+
+function checkAnswer(
+    button,
+    selected,
+    question,
+    category
+) {
+
+    if(!locked) return;
+
+
+    locked = false;
+
+
+    attempts++;
+
+    mastery[category][1]++;
+
+
+    const buttons =
+        document.querySelectorAll(".answer");
+
+
+    buttons.forEach(btn => {
+        btn.disabled = true;
+    });
+
+
+    const feedback =
+        document.getElementById("feedback");
+
+
+    if(selected === question.x) {
+
+        button.classList.add("correct");
+
+
+        correct++;
+
+        mastery[category][0]++;
+
+        streak++;
+
+
+        let points = 10;
+
+
+        if(streak >= 3) {
+            points += 5;
+        }
+
+
+        score += points;
+
+
+        feedback.innerHTML =
+            "✅ CORRECT! +" +
+            points +
+            " XP<br><small>" +
+            question.e +
+            "</small>";
+
+
+        feedback.style.background =
+            "#bbf7d0";
+
+
+        document.getElementById("status")
+            .textContent =
+            "Great! Keep going 🔥";
+
+    }
+
+
+    else {
+
+        button.classList.add("wrong");
+
+
+        buttons[question.x]
+            .classList.add("correct");
+
+
+        streak = 0;
+
+
+        feedback.innerHTML =
+            "❌ NOT QUITE!<br>" +
+            "Correct answer: <b>" +
+            question.a[question.x] +
+            "</b><br><small>" +
+            question.e +
+            "</small>";
+
+
+        feedback.style.background =
+            "#fecaca";
+
+
+        document.getElementById("status")
+            .textContent =
+            "Keep practising! 💪";
+
+    }
+
+
+    feedback.classList.remove("hidden");
+
+
+    render();
+
+
+    setTimeout(function() {
+
+        document.getElementById("questionBox")
+            .classList.add("hidden");
+
+
+        if(position >= path.length - 1) {
+
+            finish();
+
+        }
+
+        else {
+
+            locked = false;
+
+            document.getElementById("rollButton")
+                .disabled = false;
+
+        }
+
+    },1800);
+
 }
-function answer(btn,i,item,k){
- if(!locked)return;
- locked=false;attempts++;stats[k][1]++;
- const buttons=[...document.querySelectorAll("#answers button")];
- buttons.forEach(b=>b.disabled=true);
- const fb=document.getElementById("feedback");
- if(i===item.x){
-  btn.classList.add("correct");correct++;stats[k][0]++;streak++;
-  let gain=10+(streak>=3?5:0);score+=gain;
-  fb.innerHTML="✅ Correct! +"+gain+" XP<br><small>"+item.e+"</small>";
-  fb.style.background="#dcfce7";log("✅ "+categories.find(c=>c.key===k).name+" — correct (+"+gain+" XP)");
- }else{
-  btn.classList.add("wrong");buttons[item.x].classList.add("correct");streak=0;
-  fb.innerHTML="❌ Not quite. Correct answer: <b>"+item.a[item.x]+"</b><br><small>"+item.e+"</small>";
-  fb.style.background="#fee2e2";log("❌ "+categories.find(c=>c.key===k).name+" — incorrect");
- }
- fb.classList.remove("hidden");render();
- setTimeout(()=>{
-  document.getElementById("questionBox").classList.add("hidden");
-  if(pos===path.length-1)finish();
-  else{locked=false;document.getElementById("rollBtn").disabled=false;}
- },1800);
+
+
+function finish() {
+
+    document.getElementById("rollButton")
+        .disabled = true;
+
+
+    const percentage =
+        attempts === 0
+        ? 0
+        : Math.round(
+            (correct / attempts) * 100
+        );
+
+
+    document.getElementById("status")
+        .innerHTML =
+        "🏆 FINISH! " +
+        percentage +
+        "% accuracy";
+
+
+    setTimeout(function() {
+
+        alert(
+            "🏆 G-QUEST COMPLETE!\\n\\n" +
+            "⭐ XP: " + score + "\\n" +
+            "🎯 Accuracy: " + percentage + "%\\n" +
+            "✅ Correct: " + correct +
+            "/" + attempts
+        );
+
+    },300);
+
 }
-function log(t){
- const d=document.createElement("div");d.className="logitem";d.textContent=t;
- const box=document.getElementById("log");box.prepend(d);
-}
-function finish(){
- document.getElementById("rollBtn").disabled=true;
- const pct=attempts?Math.round(correct/attempts*100):0;
- setTimeout(()=>alert(`🏆 ${name}, you reached FINISH!\\n\\nXP: ${score}\\nAccuracy: ${pct}%\\nCorrect: ${correct}/${attempts}\\n\\nKeep practising your weakest category!`),100);
- log("🏆 FINISH reached — "+score+" XP, "+pct+"% accuracy.");
-}
+
+
 render();
+
 </script>
+
 </body>
 </html>
